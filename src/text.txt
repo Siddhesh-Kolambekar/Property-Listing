@@ -1,7 +1,6 @@
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import home from "../public/home.webp";
 
-// (Existing styles object remains the same as in the original code)
 const styles = {
   container: {
     maxWidth: "100%",
@@ -48,6 +47,7 @@ const styles = {
     padding: "16px",
     borderRadius: "8px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+    overflow: "hidden",
   },
   label: {
     display: "block",
@@ -449,33 +449,18 @@ const PropertyListing = () => {
     },
   ], []);
 
-  const generateSuggestions = useCallback((key, value) => {
-    if (!value) {
-      return [];
-    }
-    const lowercaseValue = value.toLowerCase();
-    const uniqueSuggestions = new Set(
-      properties
-        .map((property) => property[key])
-        .filter((item) => 
-          item.toLowerCase().includes(lowercaseValue) && 
-          item.toLowerCase() !== lowercaseValue
-        )
-    );
-    return Array.from(uniqueSuggestions).slice(0, 5);
-  }, [properties]);
-
   const filteredProperties = useMemo(() => {
     return properties.filter(
       (property) =>
-        (filters.title === "" || 
-          property.title.toLowerCase().includes(filters.title.toLowerCase())) &&
-        (filters.location === "" || 
-          property.location.toLowerCase().includes(filters.location.toLowerCase())) &&
+        (property.title.toLowerCase().includes(filters.title.toLowerCase()) ||
+          property.location
+            .toLowerCase()
+            .includes(filters.location.toLowerCase())) &&
         property.price >= filters.minPrice &&
         property.price <= filters.maxPrice &&
-        (filters.bedrooms === "" || 
-          property.bedrooms === parseInt(filters.bedrooms)) &&
+        (filters.bedrooms
+          ? property.bedrooms === parseInt(filters.bedrooms)
+          : true) &&
         property.rating >= filters.minRating
     );
   }, [filters, properties]);
@@ -484,10 +469,12 @@ const PropertyListing = () => {
     setFilters((prev) => ({ ...prev, [key]: value }));
 
     if (key === "location" || key === "title") {
-      const newSuggestions = generateSuggestions(key, value);
+      const newSuggestions = properties
+        .map((property) => property[key])
+        .filter((item) => item.toLowerCase().includes(value.toLowerCase()));
       setSuggestions((prev) => ({ ...prev, [key]: newSuggestions }));
     }
-  }, [generateSuggestions]);
+  }, [properties]);
 
   const handleSuggestionClick = (type, value) => {
     setFilters((prev) => ({ ...prev, [type]: value }));
@@ -519,7 +506,6 @@ const PropertyListing = () => {
         </header>
       </div>
       <div style={styles.filters}>
-        {/* Price Range Filter */}
         <div style={styles.filterGroup}>
           <label style={styles.label}>Price Range</label>
           <div>
@@ -540,34 +526,6 @@ const PropertyListing = () => {
           </div>
         </div>
 
-        {/* Location Filter with Suggestions */}
-        <div style={styles.filterGroup}>
-          <label style={styles.label}>Location</label>
-          <div style={styles.suggestionContainer}>
-            <input
-              type="text"
-              placeholder="Enter location..."
-              value={filters.location}
-              onChange={(e) => handleFilterChange("location", e.target.value)}
-              style={styles.input}
-            />
-            {suggestions.location.length > 0 && (
-              <ul style={styles.suggestions}>
-                {suggestions.location.map((suggestion, index) => (
-                  <li
-                    key={index}
-                    style={styles.suggestionItem}
-                    onClick={() => handleSuggestionClick("location", suggestion)}
-                  >
-                    {suggestion}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
-
-        {/* Bedrooms Filter */}
         <div style={styles.filterGroup}>
           <label style={styles.label}>Bedrooms</label>
           <select
@@ -584,7 +542,6 @@ const PropertyListing = () => {
           </select>
         </div>
 
-        {/* Title Filter with Suggestions */}
         <div style={styles.filterGroup}>
           <label style={styles.label}>Search by Title</label>
           <div style={styles.suggestionContainer}>
@@ -612,7 +569,6 @@ const PropertyListing = () => {
         </div>
       </div>
 
-      {/* Existing Rating Filter and Properties Grid sections remain the same */}
       <div style={styles.ratingFilter}>
         <label style={styles.label}>Minimum Rating</label>
         <input
