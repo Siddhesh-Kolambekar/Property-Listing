@@ -5,10 +5,10 @@ import Property from "../Property";
 import PropertyDetails from "../PropertyDetails";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import "../../../src/App.css"
 import Agents from "../Agents";
 import About from "../About";
 import Contact from "../Contact";
+import "../../App.css";
 
 const Parent = () => {
   return (

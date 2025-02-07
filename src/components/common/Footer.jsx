@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "../../../src/App.css"
 
 const Footer = () => {
@@ -21,26 +22,26 @@ const Footer = () => {
             Find your perfect home with our extensive listing of properties across the country.
           </p>
           <div className="social-links">
-            <a href="#" className="footer-link">Facebook</a>
-            <a href="#" className="footer-link">Twitter</a>
-            <a href="#" className="footer-link">Instagram</a>
+            <Link to="#" className="footer-link">Facebook</Link>
+            <Link to="#" className="footer-link">Twitter</Link>
+            <Link to="#" className="footer-link">Instagram</Link>
           </div>
         </div>
         
         <div className="footer-section">
           <h3 className="footer-title">Quick Links</h3>
-          <a href="/properties" className="footer-link">Properties</a>
-          <a href="/agents" className="footer-link">Agents</a>
-          <a href="/about" className="footer-link">About Us</a>
-          <a href="/contact" className="footer-link">Contact</a>
+          <Link to="/properties" className="footer-link">Properties</Link>
+          <Link to="/agents" className="footer-link">Agents</Link>
+          <Link to="/about" className="footer-link">About Us</Link>
+          <Link to="/contact" className="footer-link">Contact</Link>
         </div>
 
         <div className="footer-section">
           <h3 className="footer-title">Resources</h3>
-          <a href="#" className="footer-link">Blog</a>
-          <a href="#" className="footer-link">Market Updates</a>
-          <a href="#" className="footer-link">Buying Guide</a>
-          <a href="#" className="footer-link">Selling Guide</a>
+          <Link to="#" className="footer-link">Blog</Link>
+          <Link to="#" className="footer-link">Market Updates</Link>
+          <Link to="#" className="footer-link">Buying Guide</Link>
+          <Link to="#" className="footer-link">Selling Guide</Link>
         </div>
 
         <div className="footer-section">
