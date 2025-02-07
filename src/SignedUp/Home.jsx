@@ -257,10 +257,7 @@ const Home = () => {
       <header className="home-header" style={{ backgroundImage: `url(${home})` }}>
         <h1>Find Your Dream Home</h1>
         <p>Discover the perfect property that matches your lifestyle</p>
-        <div className="button-container">
-          <button className="button">Sign Up</button>
-          <button className="button">Login</button>
-        </div>
+        <button className="button">Logout</button>
       </header>
       <div className="home-container">
         <div className="properties-grid">
