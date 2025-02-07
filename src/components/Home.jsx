@@ -1,143 +1,49 @@
 import React, { useState, useMemo, useEffect } from "react";
 import home from "../../public/home.webp";
+import "../../src/App.css"
 
 // PropertyCard Component
 const PropertyCard = React.memo(({ property }) => {
-  const cardStyles = {
-    card: {
-      border: "1px solid #e2e8f0",
-      borderRadius: "12px",
-      overflow: "hidden",
-      backgroundColor: "white",
-      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-      transition: "transform 0.2s",
-      display: "flex",
-      flexDirection: "column",
-      width: "100%",
-      margin: "0 auto",
-    },
-    imageContainer: {
-      position: "relative",
-      height: "200px",
-      overflow: "hidden",
-    },
-    image: {
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      objectPosition: "center",
-    },
-    priceTag: {
-      position: "absolute",
-      bottom: "12px",
-      left: "12px",
-      background: "rgba(0, 0, 0, 0.7)",
-      color: "white",
-      padding: "6px 12px",
-      borderRadius: "20px",
-      fontWeight: "bold",
-    },
-    content: {
-      padding: "16px",
-    },
-    title: {
-      fontSize: "1.25rem",
-      fontWeight: "bold",
-      marginBottom: "8px",
-      color: "#2d3748",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-      whiteSpace: "nowrap",
-    },
-    location: {
-      color: "#4a5568",
-      marginBottom: "12px",
-      fontSize: "0.9rem",
-    },
-    details: {
-      display: "flex",
-      gap: "16px",
-      marginBottom: "12px",
-      color: "#718096",
-      fontSize: "0.9rem",
-      flexWrap: "wrap",
-    },
-    rating: {
-      display: "flex",
-      alignItems: "center",
-      gap: "4px",
-      fontSize: "1.1rem",
-    }
-  };
-
   const { title, location, bedrooms, bathrooms, area, price, image, rating } = property;
 
-  const renderStars = () => {
-    return Array.from({ length: 5 }).map((_, index) => (
-      <span key={index} style={{ color: index < Math.floor(rating) ? "#FFD700" : "#E2E8F0" }}>
-        ★
-      </span>
-    ));
-  };
+  const renderStars = useMemo(() => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      stars.push(
+        <span key={i} style={{ color: i < rating ? "#FFD700" : "#E2E8F0" }}>
+          {i < Math.floor(rating) ? "★" : "☆"}
+        </span>
+      );
+    }
+    return stars;
+  }, [rating]);
 
   return (
-    <div style={cardStyles.card}>
-      <div style={cardStyles.imageContainer}>
-        <img src={image} alt={title} style={cardStyles.image} />
-        <div style={cardStyles.priceTag}>${price.toLocaleString()}</div>
+    <div className="property-card">
+      <div className="image-container">
+        <img src={image} alt={title} />
+        <div className="price-tag">${price.toLocaleString()}</div>
       </div>
-      <div style={cardStyles.content}>
-        <h3 style={cardStyles.title}>{title}</h3>
-        <p style={cardStyles.location}>{location}</p>
-        <div style={cardStyles.details}>
+      <div className="content">
+        <h3 className="title">{title}</h3>
+        <p className="location">{location}</p>
+        <div className="details">
           <span>{bedrooms} Beds</span>
           <span>|</span>
           <span>{bathrooms} Baths</span>
           <span>|</span>
           <span>{area} sq ft</span>
         </div>
-        <div style={cardStyles.rating}>
-          {renderStars()}
-          <span>({rating})</span>
+        <div className="rating">
+          {renderStars} <span>({rating})</span>
         </div>
       </div>
     </div>
   );
 });
 
-// PropertyListing Component
+// Home Component
 const Home = () => {
-  const styles = {
-    container: {
-      maxWidth: "100%",
-      margin: "0 auto",
-      padding: "24px",
-      backgroundColor: "#f7fafc",
-    },
-    header: {
-      textAlign: "center",
-      marginBottom: "40px",
-      backgroundImage: `url(${home})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      height: "80vh",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      color: "black",
-      textShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
-    },
-    propertiesGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-      gap: "24px",
-      padding: "0 20px",
-      maxWidth: "1400px",
-      margin: "0 auto",
-    },
-  };
-
   const properties = useMemo(() => [
     {
       id: 1,
@@ -348,42 +254,16 @@ const Home = () => {
 
   return (
     <>
-      <header style={styles.header}>
+      <header className="home-header" style={{ backgroundImage: `url(${home})` }}>
         <h1>Find Your Dream Home</h1>
         <p>Discover the perfect property that matches your lifestyle</p>
-        <div style={{display:"flex",width:"250px",justifyContent:"space-between"}}>
-              <button
-                style={{
-                  backgroundColor: "#0056b3",
-                  color: "white",
-                  padding: "12px 24px",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  border: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer"
-                }}
-              >
-                Sign Up
-              </button>
-              <button
-                style={{
-                  backgroundColor: "#0056b3",
-                  color: "white",
-                  padding: "12px 24px",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  border: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer"
-                }}
-              >
-                Login
-              </button>
+        <div className="button-container">
+          <button className="button">Sign Up</button>
+          <button className="button">Login</button>
         </div>
       </header>
-      <div style={styles.container}>
-        <div style={styles.propertiesGrid}>
+      <div className="home-container">
+        <div className="properties-grid">
           {properties.map((property) => (
             <PropertyCard key={property.id} property={property} />
           ))}

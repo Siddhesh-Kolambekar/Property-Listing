@@ -1,137 +1,6 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-
-const styles = {
-  container: {
-    maxWidth: "100%",
-    margin: "0 auto",
-    padding: "24px",
-    backgroundColor: "#f7fafc",
-  },
-  filters: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-    gap: "24px",
-    marginBottom: "32px",
-  },
-  filterGroup: {
-    background: "white",
-    padding: "20px",
-    borderRadius: "8px",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-  },
-  input: {
-    width: "100%",
-    padding: "8px 12px",
-    border: "1px solid #e2e8f0",
-    borderRadius: "6px",
-    fontSize: "1rem",
-    display:"grid",
-    alignSelf:"center",
-    justifySelf:"center"
-  },
-  propertiesGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-    gap: "24px",
-  },
-  propertyCard: {
-    border: "1px solid #e2e8f0",
-    borderRadius: "12px",
-    overflow: "hidden",
-    backgroundColor: "white",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    transition: "transform 0.2s",
-    display: "flex",
-    flexDirection: "column",
-  },
-  imageContainer: {
-    position: "relative",
-    height: "200px",
-    overflow: "hidden",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-  },
-  priceTag: {
-    position: "absolute",
-    bottom: "12px",
-    left: "12px",
-    background: "rgba(0, 0, 0, 0.7)",
-    color: "white",
-    padding: "6px 12px",
-    borderRadius: "20px",
-    fontWeight: "bold",
-  },
-  content: {
-    padding: "16px",
-  },
-  title: {
-    fontSize: "1.25rem",
-    fontWeight: "bold",
-    marginBottom: "8px",
-    color: "#2d3748",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-  },
-  location: {
-    color: "#4a5568",
-    marginBottom: "12px",
-    fontSize: "0.9rem",
-  },
-  details: {
-    display: "flex",
-    gap: "16px",
-    marginBottom: "12px",
-    color: "#718096",
-    fontSize: "0.9rem",
-  },
-  rating: {
-    marginBottom: "16px",
-    fontSize: "1.1rem",
-  },
-  viewButton: {
-    width: "100%",
-    backgroundColor: "#4299e1",
-    color: "white",
-    padding: "8px 16px",
-    borderRadius: "6px",
-    border: "none",
-    cursor: "pointer",
-  },
-  suggestionContainer: {
-    position: "relative",
-  },
-  suggestions: {
-    position: "absolute",
-    top: "100%",
-    left: 0,
-    right: 0,
-    background: "white",
-    border: "1px solid #e2e8f0",
-    borderRadius: "6px",
-    marginTop: "4px",
-    padding: 0,
-    listStyle: "none",
-    maxHeight: "200px",
-    overflowY: "auto",
-    zIndex: 10,
-  },
-  suggestionItem: {
-    padding: "8px 12px",
-    cursor: "pointer",
-  },
-  label: {
-    display: "block",
-    fontSize: "1rem",
-    fontWeight: "600",
-    marginBottom: "8px",
-    color: "#2d3748",
-  },
-};
+import "../../src/App.css"
 
 const PropertyCard = React.memo(({ property }) => {
   const navigate = useNavigate();
@@ -150,27 +19,27 @@ const PropertyCard = React.memo(({ property }) => {
   }, [rating]);
 
   return (
-    <div style={styles.propertyCard}>
-      <div style={styles.imageContainer}>
-        <img src={property.image} alt={property.title} style={styles.image} />
-        <div style={styles.priceTag}>${property.price.toLocaleString()}</div>
+    <div className="propertyCard">
+      <div className="imageContainer">
+        <img src={property.image} alt={property.title} className="image" />
+        <div className="priceTag">${property.price.toLocaleString()}</div>
       </div>
-      <div style={styles.content}>
-        <h3 style={styles.title}>{property.title}</h3>
-        <p style={styles.location}>{property.location}</p>
-        <div style={styles.details}>
+      <div className="content">
+        <h3 className="title">{property.title}</h3>
+        <p className="location">{property.location}</p>
+        <div className="details">
           <span>{property.bedrooms} Beds</span>
           <span>|</span>
           <span>{property.bathrooms} Baths</span>
           <span>|</span>
           <span>{property.area} sq ft</span>
         </div>
-        <div style={styles.rating}>
+        <div className="rating">
           {renderStars} <span>({rating})</span>
         </div>
-        <button 
-          onClick={() => navigate(`/property/${property.id}`, { state: { property } })} 
-          style={styles.viewButton}
+        <button
+          onClick={() => navigate(`/property/${property.id}`, { state: { property } })}
+          className="viewButton"
         >
           View Details
         </button>
@@ -408,8 +277,8 @@ const Property = () => {
     return [...new Set(
       properties
         .map(property => property[key])
-        .filter(item => 
-          item.toLowerCase().includes(lowercaseValue) && 
+        .filter(item =>
+          item.toLowerCase().includes(lowercaseValue) &&
           item.toLowerCase() !== lowercaseValue
         )
     )].slice(0, 5);
@@ -418,15 +287,15 @@ const Property = () => {
   const handleFilterChange = useCallback((key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
     if (key === "location" || key === "title") {
-      setSuggestions(prev => ({ 
-        ...prev, 
+      setSuggestions(prev => ({
+        ...prev,
         [key]: generateSuggestions(key, value)
       }));
     }
   }, [generateSuggestions]);
 
-  const filteredProperties = useMemo(() => 
-    properties.filter(property => 
+  const filteredProperties = useMemo(() =>
+    properties.filter(property =>
       property.price >= filters.minPrice &&
       property.price <= filters.maxPrice &&
       property.rating >= filters.minRating &&
@@ -436,27 +305,27 @@ const Property = () => {
     ), [properties, filters]);
 
   return (
-    <div style={styles.container}>
-      <div style={styles.filters}>
+    <div className="container">
+      <div className="filters">
         {["title", "location"].map(filterType => (
-          <div key={filterType} style={styles.filterGroup}>
-            <label style={styles.label}>
+          <div key={filterType} className="filterGroup">
+            <label className="label">
               Search by {filterType.charAt(0).toUpperCase() + filterType.slice(1)}
             </label>
-            <div style={styles.suggestionContainer}>
+            <div className="suggestionContainer">
               <input
                 type="text"
                 placeholder={`Enter ${filterType}...`}
                 value={filters[filterType]}
                 onChange={e => handleFilterChange(filterType, e.target.value)}
-                style={styles.input}
+                className="input"
               />
               {suggestions[filterType].length > 0 && (
-                <ul style={styles.suggestions}>
+                <ul className="suggestions">
                   {suggestions[filterType].map((suggestion, index) => (
                     <li
                       key={index}
-                      style={styles.suggestionItem}
+                      className="suggestionItem"
                       onClick={() => {
                         setFilters(prev => ({ ...prev, [filterType]: suggestion }));
                         setSuggestions(prev => ({ ...prev, [filterType]: [] }));
@@ -471,12 +340,12 @@ const Property = () => {
           </div>
         ))}
 
-        <div style={styles.filterGroup}>
-          <label style={styles.label}>Bedrooms</label>
-          <select 
-            value={filters.bedrooms} 
+        <div className="filterGroup">
+          <label className="label">Bedrooms</label>
+          <select
+            value={filters.bedrooms}
             onChange={e => handleFilterChange("bedrooms", e.target.value)}
-            style={styles.input}
+            className="input"
           >
             <option value="">Any</option>
             {[1, 2, 3, 4, 5].map(num => (
@@ -487,35 +356,35 @@ const Property = () => {
           </select>
         </div>
 
-        <div style={styles.filterGroup}>
-          <label style={styles.label}>Price Range</label>
-          <input 
-            type="range" 
-            min="0" 
-            max="5000000" 
-            value={filters.minPrice} 
+        <div className="filterGroup">
+          <label className="label">Price Range</label>
+          <input
+            type="range"
+            min="0"
+            max="5000000"
+            value={filters.minPrice}
             onChange={e => handleFilterChange("minPrice", Number(e.target.value))}
-            style={styles.input} 
+            className="input"
           />
           <span>${filters.minPrice.toLocaleString()} - ${filters.maxPrice.toLocaleString()}</span>
         </div>
 
-        <div style={styles.filterGroup}>
-          <label style={styles.label}>Minimum Rating</label>
-          <input 
-            type="range" 
-            min="0" 
-            max="5" 
-            step="0.1" 
-            value={filters.minRating} 
+        <div className="filterGroup">
+          <label className="label">Minimum Rating</label>
+          <input
+            type="range"
+            min="0"
+            max="5"
+            step="0.1"
+            value={filters.minRating}
             onChange={e => handleFilterChange("minRating", Number(e.target.value))}
-            style={styles.input} 
+            className="input"
           />
           <span>{filters.minRating} Stars</span>
         </div>
       </div>
 
-      <div style={styles.propertiesGrid}>
+      <div className="propertiesGrid">
         {filteredProperties.map(property => (
           <PropertyCard key={property.id} property={property} />
         ))}

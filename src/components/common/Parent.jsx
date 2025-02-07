@@ -1,4 +1,3 @@
-// src/Parent.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "../Home";
@@ -6,13 +5,14 @@ import Property from "../Property";
 import PropertyDetails from "../PropertyDetails";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import "../../../src/App.css"
 
 const Parent = () => {
   return (
     <Router>
-      <div style={styles.container}>
+      <div className="container">
         <Navbar />
-        <div style={styles.content}>
+        <div className="content">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/properties" element={<Property />} />
@@ -23,18 +23,6 @@ const Parent = () => {
       </div>
     </Router>
   );
-};
-
-const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    minHeight: "100vh",
-    fontFamily: "sans-serif"
-  },
-  content: {
-    flex: 1,
-  },
 };
 
 export default Parent;
