@@ -28,8 +28,6 @@ const Navbar = () => {
         </button>
         <div className={isMobile && isMenuOpen ? "nav-links-mobile" : "nav-links"}>
           <Link to="/" className="nav-link">Home</Link>
-          <Link to="/properties" className="nav-link">Properties</Link>
-          <Link to="/agents" className="nav-link">Agents</Link>
           <Link to="/about" className="nav-link">About</Link>
           <Link to="/contact" className="nav-link">Contact</Link>
           <button className="button">Get Started</button>

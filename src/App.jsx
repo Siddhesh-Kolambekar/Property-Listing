@@ -1,5 +1,5 @@
-import SignedIn from "./After SignUp/common/Parent"
-import SignedOut from "./Before SignUp/common/Parent"
+import SignedIn from "./SignedUp/common/Parent"
+import SignedOut from "./SignedOut/common/Parent"
 
 const App = () => {
   return <SignedOut />;
