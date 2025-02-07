@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import logo from "../../../public/logo.png";
 import "../../App.css"; // Import the CSS file
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,8 +27,8 @@ const Navbar = () => {
           ☰
         </button>
         <div className={isMobile && isMenuOpen ? "nav-links-mobile" : "nav-links"}>
-          <a href="/" className="nav-link">Home</a>
-          <a href="/properties" className="nav-link">Properties</a>
+          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/properties" className="nav-link">Properties</Link>
           <a href="/agents" className="nav-link">Agents</a>
           <a href="/about" className="nav-link">About</a>
           <a href="/contact" className="nav-link">Contact</a>

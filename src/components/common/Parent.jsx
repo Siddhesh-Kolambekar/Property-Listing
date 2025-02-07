@@ -6,6 +6,9 @@ import PropertyDetails from "../PropertyDetails";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "../../../src/App.css"
+import Agents from "../Agents";
+import About from "../About";
+import Contact from "../Contact";
 
 const Parent = () => {
   return (
@@ -17,6 +20,9 @@ const Parent = () => {
             <Route path="/" element={<Home />} />
             <Route path="/properties" element={<Property />} />
             <Route path="/property/:id" element={<PropertyDetails />} />
+            <Route path="/agents" element={<Agents/>}/>
+            <Route path="/about" element={<About/>}/>
+            <Route path="/contact" element={<Contact/>}/>
           </Routes>
         </div>
         <Footer />
