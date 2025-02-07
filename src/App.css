@@ -389,31 +389,56 @@
   .home-container {
     max-width: 100%;
     margin: 0 auto;
-    padding: 24px;
+    padding: clamp(16px, 3vw, 24px);
     background-color: #f7fafc;
   }
   
   .home-header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: clamp(24px, 5vw, 40px);
     background-size: cover;
     background-position: center;
-    height: 80vh;
+    height: clamp(60vh, 70vh, 80vh);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: black;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    padding: clamp(16px, 4vw, 32px);
+  }
+
+  .home-header h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: clamp(8px, 2vw, 16px);
+  }
+
+  .home-header p {
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+    margin-bottom: clamp(16px, 4vw, 32px);
+    max-width: 80%;
   }
   
   .properties-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 24px;
-    padding: 0 20px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: clamp(16px, 3vw, 24px);
+    padding: 0 clamp(12px, 2vw, 20px);
     max-width: 1400px;
     margin: 0 auto;
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .properties-grid {
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    }
+  }
+
+  @media (max-width: 480px) {
+    .properties-grid {
+      grid-template-columns: 1fr;
+    }
   }
   
   /* Buttons */
@@ -426,12 +451,13 @@
   .button {
     background-color: #0056b3;
     color: white;
-    padding: 12px 24px;
-    font-size: 18px;
+    padding: clamp(8px 16px, 2vw, 12px 24px);
+    font-size: clamp(1rem, 2vw, 1.125rem);
     font-weight: bold;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
   }
 
 /* PropertyDetails Styles   */
