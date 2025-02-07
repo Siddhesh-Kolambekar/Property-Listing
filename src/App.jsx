@@ -1,9 +1,8 @@
-import Home from "./After SignUp/Home";
-import Parent from "./After SignUp/common/Parent";
-import Property from "./After SignUp/Property";
+import SignedIn from "./After SignUp/common/Parent"
+import SignedOut from "./Before SignUp/common/Parent"
 
 const App = () => {
-  return <Parent />;
+  return <SignedOut />;
 };
 
 export default App;
