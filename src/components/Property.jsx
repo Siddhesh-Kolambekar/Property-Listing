@@ -1,275 +1,24 @@
 import React, { useState, useMemo, useCallback } from "react";
-import home from "../../public/home.webp";
-import logo from "../../public/logo.png"
+import { useNavigate } from "react-router-dom";
 
-// Navbar Component
-const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const navStyles = {
-    navbar: {
-      backgroundColor: 'white',
-      padding: '1rem 2rem',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-      position: 'sticky',
-      top: 0,
-      zIndex: 1000,
-    },
-    navContent: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      maxWidth: '1200px',
-      margin: '0 auto',
-    },
-    logo: {
-      fontSize: '1.5rem',
-      fontWeight: 'bold',
-      color: '#4299e1',
-      textDecoration: 'none',
-      display:"flex",
-      alignItems:"center"
-    },
-    navLinks: {
-      display: 'flex',
-      gap: '2rem',
-      alignItems: 'center',
-    },
-    link: {
-      color: '#4a5568',
-      textDecoration: 'none',
-      fontSize: '1rem',
-      fontWeight: '500',
-      transition: 'color 0.2s',
-      cursor: 'pointer',
-    },
-    button: {
-      backgroundColor: '#4299e1',
-      color: 'white',
-      padding: '0.5rem 1rem',
-      borderRadius: '0.375rem',
-      border: 'none',
-      cursor: 'pointer',
-      fontSize: '0.875rem',
-      fontWeight: '500',
-      transition: 'background-color 0.2s',
-    },
-    menuButton: {
-      display: 'none',
-      background: 'none',
-      border: 'none',
-      fontSize: '1.5rem',
-      cursor: 'pointer',
-      padding: '0.5rem',
-      color: '#4a5568',
-    },
-    '@media (max-width: 768px)': {
-      menuButton: {
-        display: 'block',
-      },
-      navLinks: {
-        display: 'none',
-      },
-      navLinksMobile: {
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'absolute',
-        top: '100%',
-        left: 0,
-        right: 0,
-        backgroundColor: 'white',
-        padding: '1rem',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        gap: '1rem',
-      },
-    },
-  };
-
-  return (
-    <nav style={navStyles.navbar}>
-      <div style={navStyles.navContent}>
-        <a href="/" style={navStyles.logo}>
-          <img src={logo} style={{width:"50px"}}/>
-          HomeHarbor
-        </a>
-        <button 
-          style={navStyles.menuButton}
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          ☰
-        </button>
-        <div style={isMenuOpen ? navStyles.navLinksMobile : navStyles.navLinks}>
-          <a href="/" style={navStyles.link}>Home</a>
-          <a href="/properties" style={navStyles.link}>Properties</a>
-          <a href="/agents" style={navStyles.link}>Agents</a>
-          <a href="/about" style={navStyles.link}>About</a>
-          <a href="/contact" style={navStyles.link}>Contact</a>
-          <button 
-            style={navStyles.button}
-            onMouseOver={(e) => e.target.style.backgroundColor = '#3182ce'}
-            onMouseOut={(e) => e.target.style.backgroundColor = '#4299e1'}
-          >
-            Get Started
-          </button>
-        </div>
-      </div>
-    </nav>
-  );
-};
-
-// Footer Component
-const Footer = () => {
-  const footerStyles = {
-    footer: {
-      backgroundColor: '#2d3748',
-      color: 'white',
-      padding: '4rem 2rem',
-      marginTop: '4rem',
-    },
-    content: {
-      maxWidth: '1200px',
-      margin: '0 auto',
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-      gap: '2rem',
-    },
-    section: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '1rem',
-    },
-    title: {
-      fontSize: '1.25rem',
-      fontWeight: 'bold',
-      marginBottom: '1rem',
-    },
-    link: {
-      color: '#a0aec0',
-      textDecoration: 'none',
-      fontSize: '0.875rem',
-      transition: 'color 0.2s',
-    },
-    socialLinks: {
-      display: 'flex',
-      gap: '1rem',
-      marginTop: '1rem',
-    },
-    socialIcon: {
-      width: '24px',
-      height: '24px',
-      fill: '#a0aec0',
-    },
-    bottom: {
-      borderTop: '1px solid #4a5568',
-      marginTop: '2rem',
-      paddingTop: '2rem',
-      textAlign: 'center',
-      color: '#a0aec0',
-      fontSize: '0.875rem',
-    },
-  };
-
-  return (
-    <footer style={footerStyles.footer}>
-      <div style={footerStyles.content}>
-        <div style={footerStyles.section}>
-          <h3 style={footerStyles.title}>DreamHome</h3>
-          <p style={{ color: '#a0aec0', fontSize: '0.875rem' }}>
-            Find your perfect home with our extensive listing of properties across the country.
-          </p>
-          <div style={footerStyles.socialLinks}>
-            <a href="#" style={footerStyles.link}>Facebook</a>
-            <a href="#" style={footerStyles.link}>Twitter</a>
-            <a href="#" style={footerStyles.link}>Instagram</a>
-          </div>
-        </div>
-        
-        <div style={footerStyles.section}>
-          <h3 style={footerStyles.title}>Quick Links</h3>
-          <a href="/properties" style={footerStyles.link}>Properties</a>
-          <a href="/agents" style={footerStyles.link}>Agents</a>
-          <a href="/about" style={footerStyles.link}>About Us</a>
-          <a href="/contact" style={footerStyles.link}>Contact</a>
-        </div>
-        
-        <div style={footerStyles.section}>
-          <h3 style={footerStyles.title}>Resources</h3>
-          <a href="#" style={footerStyles.link}>Blog</a>
-          <a href="#" style={footerStyles.link}>Market Updates</a>
-          <a href="#" style={footerStyles.link}>Buying Guide</a>
-          <a href="#" style={footerStyles.link}>Selling Guide</a>
-        </div>
-        
-        <div style={footerStyles.section}>
-          <h3 style={footerStyles.title}>Contact Us</h3>
-          <p style={footerStyles.link}>1234 Real Estate Ave</p>
-          <p style={footerStyles.link}>New York, NY 10001</p>
-          <p style={footerStyles.link}>Phone: (555) 123-4567</p>
-          <p style={footerStyles.link}>Email: info@dreamhome.com</p>
-        </div>
-      </div>
-      
-      <div style={footerStyles.bottom}>
-        <p>© 2024 DreamHome. All rights reserved.</p>
-      </div>
-    </footer>
-  );
-};
-
-// Existing styles object
 const styles = {
   container: {
     maxWidth: "100%",
     margin: "0 auto",
     padding: "24px",
     backgroundColor: "#f7fafc",
-    boxSizing: "border-box", 
-  },
-  header: {
-    textAlign: "center",
-    marginBottom: "40px",
-    backgroundImage: `url(${home})`,
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    height: "80vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    color: "black",
-    textShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
-    overflow: "hidden",
-  },
-  headerTitle: {
-    fontSize: "2.5rem",
-    marginBottom: "8px",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-  },
-  headerSubtitle: {
-    fontSize: "1.1rem",
   },
   filters: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
     gap: "24px",
     marginBottom: "32px",
-    boxSizing: "border-box",
   },
   filterGroup: {
     background: "white",
-    padding: "16px",
+    padding: "20px",
     borderRadius: "8px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-  },
-  label: {
-    display: "block",
-    fontSize: "1rem",
-    fontWeight: "600",
-    marginBottom: "8px",
-    color: "#2d3748",
   },
   input: {
     width: "100%",
@@ -277,43 +26,14 @@ const styles = {
     border: "1px solid #e2e8f0",
     borderRadius: "6px",
     fontSize: "1rem",
-    boxSizing: "border-box",
-  },
-  suggestionContainer: {
-    position: "relative",
-  },
-  suggestions: {
-    position: "absolute",
-    top: "100%",
-    left: 0,
-    right: 0,
-    background: "white",
-    border: "1px solid #e2e8f0",
-    borderRadius: "6px",
-    marginTop: "4px",
-    padding: 0,
-    listStyle: "none",
-    maxHeight: "200px",
-    overflowY: "auto",
-    zIndex: 10,
-    boxSizing: "border-box",
-  },
-  suggestionItem: {
-    padding: "8px 12px",
-    cursor: "pointer",
-    ":hover": {
-      backgroundColor: "#f7fafc",
-    },
-  },
-  ratingFilter: {
-    textAlign: "center",
-    marginBottom: "32px",
+    display:"grid",
+    alignSelf:"center",
+    justifySelf:"center"
   },
   propertiesGrid: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
     gap: "24px",
-    boxSizing: "border-box",
   },
   propertyCard: {
     border: "1px solid #e2e8f0",
@@ -322,7 +42,7 @@ const styles = {
     backgroundColor: "white",
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
     transition: "transform 0.2s",
-    display: "flex", 
+    display: "flex",
     flexDirection: "column",
   },
   imageContainer: {
@@ -334,7 +54,6 @@ const styles = {
     width: "100%",
     height: "100%",
     objectFit: "cover",
-    objectPosition: "center", 
   },
   priceTag: {
     position: "absolute",
@@ -348,15 +67,13 @@ const styles = {
   },
   content: {
     padding: "16px",
-    boxSizing: "border-box", 
-    overflow: "hidden", 
   },
   title: {
     fontSize: "1.25rem",
     fontWeight: "bold",
     marginBottom: "8px",
     color: "#2d3748",
-    textOverflow: "ellipsis", 
+    textOverflow: "ellipsis",
     whiteSpace: "nowrap",
     overflow: "hidden",
   },
@@ -384,51 +101,76 @@ const styles = {
     borderRadius: "6px",
     border: "none",
     cursor: "pointer",
-    transition: "background-color 0.2s",
+  },
+  suggestionContainer: {
+    position: "relative",
+  },
+  suggestions: {
+    position: "absolute",
+    top: "100%",
+    left: 0,
+    right: 0,
+    background: "white",
+    border: "1px solid #e2e8f0",
+    borderRadius: "6px",
+    marginTop: "4px",
+    padding: 0,
+    listStyle: "none",
+    maxHeight: "200px",
+    overflowY: "auto",
+    zIndex: 10,
+  },
+  suggestionItem: {
+    padding: "8px 12px",
+    cursor: "pointer",
+  },
+  label: {
+    display: "block",
+    fontSize: "1rem",
+    fontWeight: "600",
+    marginBottom: "8px",
+    color: "#2d3748",
   },
 };
 
-// PropertyCard Component
 const PropertyCard = React.memo(({ property }) => {
-  const { title, location, bedrooms, bathrooms, area, price, image, rating } = property;
+  const navigate = useNavigate();
+  const { rating } = property;
 
   const renderStars = useMemo(() => {
-    return (rating) => {
-      const stars = [];
-      for (let i = 0; i < 5; i++) {
-        if (i < Math.floor(rating)) {
-          stars.push(<span key={i} style={{ color: "#FFD700" }}>★</span>);
-        } else if (i < rating) {
-          stars.push(<span key={i} style={{ color: "#FFD700" }}>☆</span>);
-        } else {
-          stars.push(<span key={i} style={{ color: "#E2E8F0" }}>★</span>);
-        }
-      }
-      return stars;
-    };
-  }, []);
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      stars.push(
+        <span key={i} style={{ color: i < rating ? "#FFD700" : "#E2E8F0" }}>
+          {i < Math.floor(rating) ? "★" : "☆"}
+        </span>
+      );
+    }
+    return stars;
+  }, [rating]);
 
   return (
     <div style={styles.propertyCard}>
       <div style={styles.imageContainer}>
-        <img src={image} alt={title} style={styles.image} />
-        <div style={styles.priceTag}>${price.toLocaleString()}</div>
+        <img src={property.image} alt={property.title} style={styles.image} />
+        <div style={styles.priceTag}>${property.price.toLocaleString()}</div>
       </div>
       <div style={styles.content}>
-        <h3 style={styles.title}>{title}</h3>
-        <p style={styles.location}>{location}</p>
+        <h3 style={styles.title}>{property.title}</h3>
+        <p style={styles.location}>{property.location}</p>
         <div style={styles.details}>
-          <span>{bedrooms} beds</span>
-          <span>{bathrooms} baths</span>
-          <span>{area} sq ft</span>
+          <span>{property.bedrooms} Beds</span>
+          <span>|</span>
+          <span>{property.bathrooms} Baths</span>
+          <span>|</span>
+          <span>{property.area} sq ft</span>
         </div>
         <div style={styles.rating}>
-          {renderStars(rating)} <span>({rating})</span>
+          {renderStars} <span>({rating})</span>
         </div>
-        <button
+        <button 
+          onClick={() => navigate(`/property/${property.id}`, { state: { property } })} 
           style={styles.viewButton}
-          onMouseOver={(e) => (e.target.style.backgroundColor = '#3182ce')}
-          onMouseOut={(e) => (e.target.style.backgroundColor = '#4299e1')}
         >
           View Details
         </button>
@@ -437,9 +179,7 @@ const PropertyCard = React.memo(({ property }) => {
   );
 });
 
-// Main PropertyListing Component
 const Property = () => {
-  // ... (Keep all your existing state and handlers from the original code)
   const [filters, setFilters] = useState({
     minPrice: 0,
     maxPrice: 5000000,
@@ -663,133 +403,64 @@ const Property = () => {
   ], []);
 
   const generateSuggestions = useCallback((key, value) => {
-    if (!value) {
-      return [];
-    }
+    if (!value) return [];
     const lowercaseValue = value.toLowerCase();
-    const uniqueSuggestions = new Set(
+    return [...new Set(
       properties
-        .map((property) => property[key])
-        .filter((item) => 
+        .map(property => property[key])
+        .filter(item => 
           item.toLowerCase().includes(lowercaseValue) && 
           item.toLowerCase() !== lowercaseValue
         )
-    );
-    return Array.from(uniqueSuggestions).slice(0, 5);
+    )].slice(0, 5);
   }, [properties]);
 
-  const filteredProperties = useMemo(() => {
-    return properties.filter(
-      (property) =>
-        (filters.title === "" || 
-          property.title.toLowerCase().includes(filters.title.toLowerCase())) &&
-        (filters.location === "" || 
-          property.location.toLowerCase().includes(filters.location.toLowerCase())) &&
-        property.price >= filters.minPrice &&
-        property.price <= filters.maxPrice &&
-        (filters.bedrooms === "" || 
-          property.bedrooms === parseInt(filters.bedrooms)) &&
-        property.rating >= filters.minRating
-    );
-  }, [filters, properties]);
-
   const handleFilterChange = useCallback((key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-
+    setFilters(prev => ({ ...prev, [key]: value }));
     if (key === "location" || key === "title") {
-      const newSuggestions = generateSuggestions(key, value);
-      setSuggestions((prev) => ({ ...prev, [key]: newSuggestions }));
+      setSuggestions(prev => ({ 
+        ...prev, 
+        [key]: generateSuggestions(key, value)
+      }));
     }
   }, [generateSuggestions]);
 
-  const handleSuggestionClick = (type, value) => {
-    setFilters((prev) => ({ ...prev, [type]: value }));
-    setSuggestions((prev) => ({ ...prev, [type]: [] }));
-  };
+  const filteredProperties = useMemo(() => 
+    properties.filter(property => 
+      property.price >= filters.minPrice &&
+      property.price <= filters.maxPrice &&
+      property.rating >= filters.minRating &&
+      (!filters.bedrooms || property.bedrooms === Number(filters.bedrooms)) &&
+      (!filters.location || property.location.toLowerCase().includes(filters.location.toLowerCase())) &&
+      (!filters.title || property.title.toLowerCase().includes(filters.title.toLowerCase()))
+    ), [properties, filters]);
 
   return (
-    <>
-      <Navbar />
-      <div style={styles.container}>
-        <div style={{ backgroundImage: `url(${home})` }}>
-          <header style={styles.header}>
-            <h1 style={styles.headerTitle}>Find Your Dream Home</h1>
-            <p style={styles.headerSubtitle}>
-              Discover the perfect property that matches your lifestyle
-            </p>
-            <div style={{display:"flex",width:"250px",justifyContent:"space-between"}}>
-              <button
-                style={{
-                  backgroundColor: "#0056b3",
-                  color: "white",
-                  padding: "12px 24px",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  border: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer"
-                }}
-              >
-                Sign Up
-              </button>
-              <button
-                style={{
-                  backgroundColor: "#0056b3",
-                  color: "white",
-                  padding: "12px 24px",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  border: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer"
-                }}
-              >
-                Login
-              </button>
-            </div>
-          </header>
-        </div>
-
-        <div style={styles.filters}>
-          {/* Price Range Filter */}
-          <div style={styles.filterGroup}>
-            <label style={styles.label}>Price Range</label>
-            <div>
-              <input
-                type="range"
-                min="0"
-                max="5000000"
-                value={filters.minPrice}
-                onChange={(e) =>
-                  handleFilterChange("minPrice", Number(e.target.value))
-                }
-                style={styles.input}
-              />
-              <span>
-                ${filters.minPrice.toLocaleString()} - $
-                {filters.maxPrice.toLocaleString()}
-              </span>
-            </div>
-          </div>
-
-          {/* Location Filter with Suggestions */}
-          <div style={styles.filterGroup}>
-            <label style={styles.label}>Location</label>
+    <div style={styles.container}>
+      <div style={styles.filters}>
+        {["title", "location"].map(filterType => (
+          <div key={filterType} style={styles.filterGroup}>
+            <label style={styles.label}>
+              Search by {filterType.charAt(0).toUpperCase() + filterType.slice(1)}
+            </label>
             <div style={styles.suggestionContainer}>
               <input
                 type="text"
-                placeholder="Enter location..."
-                value={filters.location}
-                onChange={(e) => handleFilterChange("location", e.target.value)}
+                placeholder={`Enter ${filterType}...`}
+                value={filters[filterType]}
+                onChange={e => handleFilterChange(filterType, e.target.value)}
                 style={styles.input}
               />
-              {suggestions.location.length > 0 && (
+              {suggestions[filterType].length > 0 && (
                 <ul style={styles.suggestions}>
-                  {suggestions.location.map((suggestion, index) => (
+                  {suggestions[filterType].map((suggestion, index) => (
                     <li
                       key={index}
                       style={styles.suggestionItem}
-                      onClick={() => handleSuggestionClick("location", suggestion)}
+                      onClick={() => {
+                        setFilters(prev => ({ ...prev, [filterType]: suggestion }));
+                        setSuggestions(prev => ({ ...prev, [filterType]: [] }));
+                      }}
                     >
                       {suggestion}
                     </li>
@@ -798,78 +469,58 @@ const Property = () => {
               )}
             </div>
           </div>
+        ))}
 
-          {/* Bedrooms Filter */}
-          <div style={styles.filterGroup}>
-            <label style={styles.label}>Bedrooms</label>
-            <select
-              value={filters.bedrooms}
-              onChange={(e) => handleFilterChange("bedrooms", e.target.value)}
-              style={styles.input}
-            >
-              <option value="">Any</option>
-              {[1, 2, 3, 4, 5].map((num) => (
-                <option key={num} value={num}>
-                  {num} {num === 1 ? "Bedroom" : "Bedrooms"}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Title Filter with Suggestions */}
-          <div style={styles.filterGroup}>
-            <label style={styles.label}>Search by Title</label>
-            <div style={styles.suggestionContainer}>
-              <input
-                type="text"
-                placeholder="Enter property title..."
-                value={filters.title}
-                onChange={(e) => handleFilterChange("title", e.target.value)}
-                style={styles.input}
-              />
-              {suggestions.title.length > 0 && (
-                <ul style={styles.suggestions}>
-                  {suggestions.title.map((suggestion, index) => (
-                    <li
-                      key={index}
-                      style={styles.suggestionItem}
-                      onClick={() => handleSuggestionClick("title", suggestion)}
-                    >
-                      {suggestion}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Rating Filter */}
-        <div style={styles.ratingFilter}>
-          <label style={styles.label}>Minimum Rating</label>
-          <input
-            type="range"
-            min="0"
-            max="5"
-            step="0.1"
-            value={filters.minRating}
-            onChange={(e) =>
-              handleFilterChange("minRating", Number(e.target.value))
-            }
+        <div style={styles.filterGroup}>
+          <label style={styles.label}>Bedrooms</label>
+          <select 
+            value={filters.bedrooms} 
+            onChange={e => handleFilterChange("bedrooms", e.target.value)}
             style={styles.input}
+          >
+            <option value="">Any</option>
+            {[1, 2, 3, 4, 5].map(num => (
+              <option key={num} value={num}>
+                {num} {num === 1 ? "Bedroom" : "Bedrooms"}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div style={styles.filterGroup}>
+          <label style={styles.label}>Price Range</label>
+          <input 
+            type="range" 
+            min="0" 
+            max="5000000" 
+            value={filters.minPrice} 
+            onChange={e => handleFilterChange("minPrice", Number(e.target.value))}
+            style={styles.input} 
+          />
+          <span>${filters.minPrice.toLocaleString()} - ${filters.maxPrice.toLocaleString()}</span>
+        </div>
+
+        <div style={styles.filterGroup}>
+          <label style={styles.label}>Minimum Rating</label>
+          <input 
+            type="range" 
+            min="0" 
+            max="5" 
+            step="0.1" 
+            value={filters.minRating} 
+            onChange={e => handleFilterChange("minRating", Number(e.target.value))}
+            style={styles.input} 
           />
           <span>{filters.minRating} Stars</span>
         </div>
-
-        {/* Properties Grid */}
-        <div style={styles.propertiesGrid}>
-          {filteredProperties.map((property) => (
-            <PropertyCard key={property.id} property={property} />
-          ))}
-        </div>
       </div>
-      <Footer />
-    </>
+
+      <div style={styles.propertiesGrid}>
+        {filteredProperties.map(property => (
+          <PropertyCard key={property.id} property={property} />
+        ))}
+      </div>
+    </div>
   );
 };
 
