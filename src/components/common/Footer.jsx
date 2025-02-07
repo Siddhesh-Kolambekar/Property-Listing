@@ -22,9 +22,9 @@ const Footer = () => {
             Find your perfect home with our extensive listing of properties across the country.
           </p>
           <div className="social-links">
-            <Link to="https://www.facebook.com/" className="footer-link">Facebook</Link>
-            <Link to="https://x.com/?lang=en-in" className="footer-link">Twitter</Link>
-            <Link to="https://www.instagram.com/" className="footer-link">Instagram</Link>
+            <a href="https://www.facebook.com/" className="footer-link" target="_blank" rel="noopener noreferrer">Facebook</a>
+            <a href="https://x.com/?lang=en-in" className="footer-link" target="_blank" rel="noopener noreferrer">Twitter</a>
+            <a href="https://www.instagram.com/" className="footer-link" target="_blank" rel="noopener noreferrer">Instagram</a>
           </div>
         </div>
         
