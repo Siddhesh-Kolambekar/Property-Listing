@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Agents = () => {
   const [formData, setFormData] = useState({
     title: "Spacious 2BHK Apartment",
     price: 1500000,
-    longitude: -122.4194,
-    latitude: 37.7749,
+    longitude: "",
+    latitude: "",
     category: "Residential",
     phone: "+1234567890",
     city: "San Francisco",
@@ -13,7 +13,7 @@ const Agents = () => {
     breadth: 40,
     bhk: 2,
     description: "A beautiful and spacious 2BHK apartment located in the heart of the city.",
-    established: "2015-01-01", 
+    established: "2015-01-01",
   });
 
   const [images, setImages] = useState([]);
@@ -30,6 +30,40 @@ const Agents = () => {
   const handleImageChange = (e) => {
     setImages(e.target.files);
   };
+
+  useEffect(() => {
+    // Prevent duplicate map initialization
+    if (window.L && !window.mapInitialized) {
+      window.mapInitialized = true; // Set flag to prevent reinitialization
+
+      const map = window.L.map("map", { center: [28.61, 77.23], zoom: 5 });
+
+      window.L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      ).addTo(map);
+
+      const marker = window.L.marker([28.61, 77.23], { draggable: true }).addTo(map);
+
+      marker.on("dragend", function (event) {
+        const { lat, lng } = event.target.getLatLng();
+        setFormData((prev) => ({
+          ...prev,
+          latitude: lat.toFixed(6),
+          longitude: lng.toFixed(6),
+        }));
+      });
+
+      map.on("click", function (event) {
+        const { lat, lng } = event.latlng;
+        marker.setLatLng([lat, lng]);
+        setFormData((prev) => ({
+          ...prev,
+          latitude: lat.toFixed(6),
+          longitude: lng.toFixed(6),
+        }));
+      });
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,8 +104,9 @@ const Agents = () => {
     <form onSubmit={handleSubmit}>
       <input type="text" name="title" value={formData.title} onChange={handleChange} />
       <input type="number" name="price" value={formData.price} onChange={handleChange} />
-      <input type="text" name="longitude" value={formData.longitude} onChange={handleChange} />
-      <input type="text" name="latitude" value={formData.latitude} onChange={handleChange} />
+      <input type="text" name="longitude" value={formData.longitude} readOnly />
+      <input type="text" name="latitude" value={formData.latitude} readOnly />
+      <div id="map" style={{ width: "100%", height: "300px" }}></div>
       <input type="text" name="category" value={formData.category} onChange={handleChange} />
       <input type="tel" name="phone" value={formData.phone} onChange={handleChange} />
       <input type="text" name="city" value={formData.city} onChange={handleChange} />
