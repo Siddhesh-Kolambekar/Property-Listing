@@ -13,7 +13,7 @@ const Agents = () => {
     breadth: 40,
     bhk: 2,
     description: "A beautiful and spacious 2BHK apartment located in the heart of the city.",
-    established: "2015-01-01",
+    established: "2015",
   });
 
   const [images, setImages] = useState([]);
