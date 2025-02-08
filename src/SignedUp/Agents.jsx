@@ -78,7 +78,7 @@ const Agents = () => {
       const response = await fetch("https://property-gcvo.onrender.com/uploadProperty", {
         method: "POST",
         headers: {
-          "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+          "Authorization": localStorage.getItem(token),
         },
         body: formDataToSend,
       });

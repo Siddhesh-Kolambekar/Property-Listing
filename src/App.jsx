@@ -7,7 +7,8 @@ const App = () => {
   const token = localStorage.getItem("token");
 
   return (
-      <Routes>
+    <Router>
+        <Routes>
         {/* Default route - Show SignedOut Parent */}
         <Route path="*" element={<SignedOutParent />} />
 
@@ -20,6 +21,7 @@ const App = () => {
           element={token ? <SignedInParent /> : <Navigate to="/login" />}
         />
       </Routes>
+    </Router>
   );
 };
 
