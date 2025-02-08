@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const Agents = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +18,7 @@ const Agents = () => {
 
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const mapRef = useRef(null); // Track map initialization
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,39 +29,34 @@ const Agents = () => {
   };
 
   const handleImageChange = (e) => {
-    setImages(e.target.files);
+    setImages([...e.target.files]);
   };
 
   useEffect(() => {
-    // Prevent duplicate map initialization
-    if (window.L && !window.mapInitialized) {
-      window.mapInitialized = true; // Set flag to prevent reinitialization
+    if (window.L && !mapRef.current) {
+      mapRef.current = true; // Prevent duplicate initialization
 
       const map = window.L.map("map", { center: [28.61, 77.23], zoom: 5 });
-
-      window.L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      ).addTo(map);
-
+      window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
       const marker = window.L.marker([28.61, 77.23], { draggable: true }).addTo(map);
 
-      marker.on("dragend", function (event) {
-        const { lat, lng } = event.target.getLatLng();
+      const updateCoordinates = (lat, lng) => {
         setFormData((prev) => ({
           ...prev,
           latitude: lat.toFixed(6),
           longitude: lng.toFixed(6),
         }));
+      };
+
+      marker.on("dragend", (event) => {
+        const { lat, lng } = event.target.getLatLng();
+        updateCoordinates(lat, lng);
       });
 
-      map.on("click", function (event) {
+      map.on("click", (event) => {
         const { lat, lng } = event.latlng;
         marker.setLatLng([lat, lng]);
-        setFormData((prev) => ({
-          ...prev,
-          latitude: lat.toFixed(6),
-          longitude: lng.toFixed(6),
-        }));
+        updateCoordinates(lat, lng);
       });
     }
   }, []);
@@ -74,25 +70,21 @@ const Agents = () => {
       formDataToSend.append(key, value);
     });
 
-    for (let i = 0; i < images.length; i++) {
-      formDataToSend.append("photos", images[i]);
-    }
+    images.forEach((image) => {
+      formDataToSend.append("photos", image);
+    });
 
     try {
       const response = await fetch("https://property-gcvo.onrender.com/uploadProperty", {
         method: "POST",
         headers: {
-          "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Impvb29vdEBnbWFpbC5jb20iLCJpYXQiOjE3Mzg4NzU4NDUsImV4cCI6MTczOTA0ODY0NX0.JNhL-jUbG-hn9FvyUvhdZXCZi5qBCboiYMUnZ_uMFjE",
+          "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
         },
         body: formDataToSend,
       });
 
       const result = await response.json();
-      if (response.ok) {
-        alert("Property uploaded successfully!");
-      } else {
-        alert(result.msg || "Failed to upload property.");
-      }
+      alert(response.ok ? "Property uploaded successfully!" : result.msg || "Failed to upload property.");
     } catch (error) {
       alert("Network error. Check your connection.");
     }
@@ -102,20 +94,20 @@ const Agents = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input type="text" name="title" value={formData.title} onChange={handleChange} />
-      <input type="number" name="price" value={formData.price} onChange={handleChange} />
+      <input type="text" name="title" value={formData.title} onChange={handleChange} disabled={loading} />
+      <input type="number" name="price" value={formData.price} onChange={handleChange} disabled={loading} />
       <input type="text" name="longitude" value={formData.longitude} readOnly />
       <input type="text" name="latitude" value={formData.latitude} readOnly />
       <div id="map" style={{ width: "100%", height: "300px" }}></div>
-      <input type="text" name="category" value={formData.category} onChange={handleChange} />
-      <input type="tel" name="phone" value={formData.phone} onChange={handleChange} />
-      <input type="text" name="city" value={formData.city} onChange={handleChange} />
-      <input type="number" name="length" value={formData.length} onChange={handleChange} />
-      <input type="number" name="breadth" value={formData.breadth} onChange={handleChange} />
-      <input type="number" name="bhk" value={formData.bhk} onChange={handleChange} />
-      <textarea name="description" value={formData.description} onChange={handleChange}></textarea>
-      <input type="number" name="established" value={formData.established} onChange={handleChange} />
-      <input type="file" multiple accept="image/*" onChange={handleImageChange} />
+      <input type="text" name="category" value={formData.category} onChange={handleChange} disabled={loading} />
+      <input type="tel" name="phone" value={formData.phone} onChange={handleChange} disabled={loading} />
+      <input type="text" name="city" value={formData.city} onChange={handleChange} disabled={loading} />
+      <input type="number" name="length" value={formData.length} onChange={handleChange} disabled={loading} />
+      <input type="number" name="breadth" value={formData.breadth} onChange={handleChange} disabled={loading} />
+      <input type="number" name="bhk" value={formData.bhk} onChange={handleChange} disabled={loading} />
+      <textarea name="description" value={formData.description} onChange={handleChange} disabled={loading}></textarea>
+      <input type="number" name="established" value={formData.established} onChange={handleChange} disabled={loading} />
+      <input type="file" multiple accept="image/*" onChange={handleImageChange} disabled={loading} />
       <button type="submit" disabled={loading}>{loading ? "Uploading..." : "Submit"}</button>
     </form>
   );

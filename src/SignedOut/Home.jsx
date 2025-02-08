@@ -1,8 +1,8 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import home from "../../public/home.webp";
-import "../../src/App.css"
+import "../../src/App.css";
 
-// PropertyCard Component
 const PropertyCard = React.memo(({ property }) => {
   const { title, location, bedrooms, bathrooms, area, price, image, rating } = property;
 
@@ -42,8 +42,9 @@ const PropertyCard = React.memo(({ property }) => {
   );
 });
 
-// Home Component
 const Home = () => {
+  const navigate = useNavigate();
+  
   const properties = useMemo(() => [
     {
       id: 1,
@@ -250,7 +251,7 @@ const Home = () => {
       rating: 4.5,
       favorite: false,
     },
-  ], []);
+  ], []); // Keep your existing properties array
 
   return (
     <>
@@ -258,8 +259,8 @@ const Home = () => {
         <h1>Find Your Dream Home</h1>
         <p>Discover the perfect property that matches your lifestyle</p>
         <div className="button-container">
-          <button className="button">Sign Up</button>
-          <button className="button">Login</button>
+          <button className="button" onClick={() => navigate("/signin")}>Sign Up</button>
+          <button className="button" onClick={() => navigate("/login")}>Login</button>
         </div>
       </header>
       <div className="home-container">

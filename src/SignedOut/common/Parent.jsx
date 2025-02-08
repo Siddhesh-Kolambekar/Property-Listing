@@ -6,6 +6,8 @@ import Footer from "./Footer";
 import About from "../About";
 import Contact from "../Contact";
 import "../../App.css";
+import SignIn from "../SignIn";
+import LogIn from "../LogIn";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -19,12 +21,14 @@ const ScrollToTop = () => {
 
 const Parent = () => {
   return (
-    <Router>
+    <>
       <ScrollToTop/>
       <div className="container">
         <Navbar />
         <div className="content">
           <Routes>
+            <Route path="/signin" element={<SignIn/>}/>
+            <Route path="/login" element={<LogIn/>}/>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About/>}/>
             <Route path="/contact" element={<Contact/>}/>
@@ -32,7 +36,7 @@ const Parent = () => {
         </div>
         <Footer />
       </div>
-    </Router>
+    </>
   );
 };
 

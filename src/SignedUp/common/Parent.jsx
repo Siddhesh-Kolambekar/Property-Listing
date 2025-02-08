@@ -22,7 +22,7 @@ const ScrollToTop = () => {
 
 const Parent = () => {
   return (
-    <Router>
+    <>
       <ScrollToTop/>
       <div className="container">
         <Navbar />
@@ -38,7 +38,7 @@ const Parent = () => {
         </div>
         <Footer />
       </div>
-    </Router>
+    </>
   );
 };
 
