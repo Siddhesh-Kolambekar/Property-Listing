@@ -10,14 +10,14 @@ const App = () => {
     <Router>
       <Routes>
         {/* Default route - Show SignedOut Parent */}
-        <Route path="/" element={<SignedOutParent />} />
+        <Route path="*" element={<SignedOutParent />} />
 
         {/* Login Route */}
         <Route path="/login" element={<Login />} />
 
         {/* SignedIn Parent - Protected Route */}
         <Route
-          path="/dashboard"
+          path="/dashboard/*"
           element={token ? <SignedInParent /> : <Navigate to="/login" />}
         />
       </Routes>
