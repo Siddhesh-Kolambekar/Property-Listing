@@ -8,7 +8,7 @@ const App = () => {
 
   return (
     <Router>
-        <Routes>
+      <Routes>
         {/* Default route - Show SignedOut Parent */}
         <Route path="*" element={<SignedOutParent />} />
 
