@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Outlet } from "react-router-dom";
 import Home from "../Home";
 import Property from "../Property";
 import PropertyDetails from "../PropertyDetails";
@@ -26,6 +26,7 @@ const Parent = () => {
       <ScrollToTop/>
       <div className="container">
         <Navbar />
+        <Outlet/>
         <div className="content">
           <Routes>
             <Route path="/" element={<Home />} />

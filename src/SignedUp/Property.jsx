@@ -38,7 +38,7 @@ const PropertyCard = React.memo(({ property }) => {
           {renderStars} <span>({rating})</span>
         </div>
         <button
-          onClick={() => navigate(`/property/${property.id}`, { state: { property } })}
+          onClick={() => navigate(`/dashboard/property/${property.id}`, { state: { property } })}
           className="viewButton"
         >
           View Details

@@ -15,7 +15,7 @@ const PropertyDetails = () => {
   }
 
   const handleBack = useCallback(() => {
-    navigate('/');
+    navigate('/dashboard');
   }, [navigate]);
 
   const handleContactAgent = useCallback(async () => {
